@@ -13,7 +13,7 @@ int main(void)
     char line[128];
     char* buffer=NULL; // Buffer to store the string
     unsigned int size=0;
-
+    char copyPath[200];
 
     char commandS[]  = "find / -name make2.txt -print 2>/dev/null -quit | tail -n 1";
     fp = popen(commandS,"r");
@@ -23,11 +23,15 @@ int main(void)
         size+=strlen(line);
         strcat(buffer=realloc(buffer,size),line);
     }
+    printf("path \n ");
+    printf("%s",buffer);
 
-    printf("Contents received from pipe\n ");
-    // fputs(buffer,stdout);
-
-    fp = fopen("/System/Volumes/Data/Users/gabbypinto/Desktop/make2.txt", "r");
+    char fileSpec[strlen(buffer)+1];
+    sprintf( fileSpec, "%s" ,buffer);
+    //fp = fopen("/System/Volumes/Data/Users/gabbypinto/Desktop/make2.txt", "r");
+    
+    // fp = fopen(path, "r");
+    fp = fopen(fileSpec,"r");
     FILE *outputF = fopen("program.txt","w");
 
    
@@ -51,3 +55,8 @@ int main(void)
     free(fline);
     exit(EXIT_SUCCESS);
 }
+
+// some commands....
+// echo `find /Users -name filecpy.c -print 2>/dev/null -quit | tail -n 1`
+// echo `find /Users -name Prewriting.pdf -print 2>/dev/null -quit | tail -n 1`  
+// echo `find / -name make2.txt -print 2>/dev/null -quit | tail -n 1`
