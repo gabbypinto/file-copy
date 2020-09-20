@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +7,7 @@
 //using namespace std;
 
 int main (int argc, char *argv[]){
-    int i;
+    // int i;
 
     // if (argc<2){
     //     printf("Error: %s <args1> <args2>... <argn> \n", argv[0] );
@@ -27,7 +28,14 @@ int main (int argc, char *argv[]){
     char line[128];
     char* buffer=NULL; // Buffer to store the string
     unsigned int size=0;
-    if (!pipe) {
+
+    char * lines = NULL;
+    size_t len = 0;
+    ssize_t read;
+    int c;
+
+    if (!pipe)
+    {
       printf("%s","popen failed!");
     }
 
@@ -40,10 +48,27 @@ int main (int argc, char *argv[]){
     printf("Contents received from pipe\n ");
     fputs(buffer,stdout);
 
-    pipe = fopen(buffer, "rb"); //reading the file
+    pipe = fopen(buffer, "r"); //reading the file
     
-    free(buffer);
+  //   while(1) {
+  //     printf("hi");
+  //     c = fgetc(pipe);
+  //     if( feof(pipe) ) { 
+  //        break ;
+  //     }
+  //     printf("%c", c);
+  //  }
+    if (pipe == NULL){
+        exit(EXIT_FAILURE);
+    }
+
+    while ((read = getline(&lines, &len, pipe)) != -1) 
+    {
+          printf("Retrieved line of length %zu:\n", read);
+          printf("%s", lines);
+    }
+
     fclose(pipe);
-    
+    free(buffer);
     return 0;
 }
