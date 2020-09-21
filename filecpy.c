@@ -1,45 +1,32 @@
+//Gabriela Pinto and Katherine Hansen
+//2318655 and 2326665
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <string.h>
-//using namespace std;
 
-int main (int argc, char *argv[]){
-    int i;
-    FILE *fp;
-    if (argc<2){
-        printf("Error: %s <args1> <args2>... <argn> \n", argv[0] );
-        return 0;
-    }
-    else{
-        /*int i,j;
-        j=system("./test");
-        printf("j=%d\n",j);*/
-        //fp=fopen(argv[1], "r");
-        //char buf[PATH_MAX]; /* PATH_MAX incudes the \0 so +1 is not required */
-        /*char *res = realpath("findme", buf);
-        if (res) {
-        printf("This source is at %s.\n", buf);
-        } else {
-            perror("realpath");
-            exit(EXIT_FAILURE);
-        }*/
-        //char filename[] = argv[1];
-        char filename[] = argv[1];
-        
-        //strcat(filename, argv[1]);
-        char* path = realpath(filename, NULL);
-        if(path == NULL){
-            printf("cannot find file with name[%s]\n", filename);
-        } else{
-            printf("path[%s]\n", path);
-            free(path);
-        }
-    return 0;
-    }
-    /////
-    
-    
-    return 0;
+int main(int argc, char *argv[]){
+  char *fline = NULL;
+  size_t len = 0;
+  ssize_t read;
+
+  FILE *fp = fopen(argv[1],"r");
+  FILE *outputF = fopen(argv[2],"w");
+
+  //If file path does not work, error occurs
+  if (fp == NULL){
+    printf("The file was not found.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  //Reads input file until end is reached
+  while ((read = getline(&fline, &len, fp)) != -1) {
+    fprintf(outputF,"%s",fline);//Prints contents of each line to output file
+  }
+
+  printf("Your file was successfully copied\n");
+
+  fclose(fp);
+  fclose(outputF);
+  free(fline);
+  exit(EXIT_SUCCESS);
 }
