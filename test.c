@@ -1,10 +1,11 @@
+//Gabriela Pinto and Katherine Hansen
 // #define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int main(void)
-{
+int main(int argc, char *argv[]){
     FILE *fp;
     char *fline = NULL;
     size_t len = 0;
@@ -15,28 +16,36 @@ int main(void)
     unsigned int size=0;
     char copyPath[200];
 
-    char commandS[]  = "find / -name make2.txt -print 2>/dev/null -quit | tail -n 1";
-    fp = popen(commandS,"r");
-
-    while (fgets(line,sizeof(line),fp))
-    {
+    //char commandS[]  = "find / -name test.txt -print 2>/dev/null -quit | tail -n 1";
+    //fp = popen(commandS,"r");
+    //fp =popen(argv[1], "r");
+    /*while (fgets(line,sizeof(line),fp)){
         size+=strlen(line);
         strcat(buffer=realloc(buffer,size),line);
-    }
-    printf("path \n ");
-    printf("%s",buffer);
+    }*/
+    printf("path \n");
+    //printf("%s",buffer);
 
-    char fileSpec[strlen(buffer)+1];
-    sprintf( fileSpec, "%s" ,buffer);
+    //char fileSpec[strlen(buffer)+1];
+
     //fp = fopen("/System/Volumes/Data/Users/gabbypinto/Desktop/make2.txt", "r");
-    
-    // fp = fopen(path, "r");
-    fp = fopen(fileSpec,"r");
-    FILE *outputF = fopen("program.txt","w");
 
-   
-    if (fp == NULL)
-    {
+    // fp = fopen(path, "r");
+
+  /*  printf("\n");
+    sprintf(fileSpec,"%s", buffer);
+    printf("%s",fileSpec);
+    printf("\n");
+    printf("/Users/katherinehansen/CPSC380/file-copy/test.txt");
+    printf("\n");
+    int compare =strcmp(fileSpec, "/Users/katherinehansen/CPSC380/file-copy/test.txt");
+    printf("%d",compare);*/
+
+    fp = fopen(argv[1],"r");
+    FILE *outputF = fopen(argv[2],"w");
+
+
+    if (fp == NULL){
         printf("doesn't work\n");
         exit(EXIT_FAILURE);
     }
@@ -58,5 +67,5 @@ int main(void)
 
 // some commands....
 // echo `find /Users -name filecpy.c -print 2>/dev/null -quit | tail -n 1`
-// echo `find /Users -name Prewriting.pdf -print 2>/dev/null -quit | tail -n 1`  
+// echo `find /Users -name Prewriting.pdf -print 2>/dev/null -quit | tail -n 1`
 // echo `find / -name make2.txt -print 2>/dev/null -quit | tail -n 1`
